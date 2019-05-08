@@ -7,8 +7,8 @@
     <artifactId>excel-a</artifactId>
 
     <parent>
-        <artifactId>boot-excel</artifactId>
         <groupId>com-zzn-boot</groupId>
+        <artifactId>boot-excel</artifactId>
         <version>1.0.1</version>
     </parent>
 
