@@ -5,22 +5,20 @@ swagger:
     用户中心:
       title: 用户中心
       version: 1.2.0
-      basePackage: org.zzn.springboot.controller
+      basePackage: com.zzn.grou.swagger.controller1
       contact:
-        email: didi@potatomato.club
-        name: zhaiyongchao
-        url: http://spring4all.com/
-      description:
+        email: m18398079257_1@163.com
+        name: zengzhangni
+        url: http://baidu.com/
+      description: 用户分组
       excludePath: /error/**
-      termsOfServiceUrl:
     测试:
       title: 测试
       version: 1.2.0
-      basePackage: org.zzn.springboot.cs
+      basePackage: com.zzn.grou.swagger.controller2
       contact:
-        email: didi@potatomato.club
-        name: zhaiyongchao
-        url: http://spring4all.com/
-      description:
+        email: m18398079257_1@163.com
+        name: zengzhangni
+        url: http://baidu.com/
+      description: 测试分组
       excludePath: /error/**
-      termsOfServiceUrl:

@@ -1,5 +1,6 @@
 package com.zzn.grou.swagger.controller2;
 
+import com.zzn.common.response.ResponseMessage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +16,8 @@ public class CsController {
 
     @ApiOperation(value = "获取")
     @GetMapping("/get")
-    public void get() {
+    public ResponseMessage get() {
+        return new ResponseMessage<>("ok");
     }
 
     @ApiOperation(value = "添加")
