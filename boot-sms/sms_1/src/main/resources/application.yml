@@ -1,0 +1,8 @@
+server:
+  port: 51002
+ali:
+  available: true
+  sms:
+    accessKeyId: accessKeyId
+    accessKeySecret: accessKeySecret
+    signName: signName

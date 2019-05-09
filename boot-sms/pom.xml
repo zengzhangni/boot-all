@@ -5,6 +5,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>boot-sms</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>sms_1</module>
+    </modules>
 
     <parent>
         <groupId>com-zzn-boot</groupId>
@@ -12,5 +16,27 @@
         <version>1.0.1</version>
     </parent>
 
+    <properties>
+        <aliyun-java-sdk-core.version>3.3.1</aliyun-java-sdk-core.version>
+        <aliyun-java-sdk-dysmsapi.version>1.0.0</aliyun-java-sdk-dysmsapi.version>
+        <aliyun-java-sdk-green.version>3.1.0</aliyun-java-sdk-green.version>
+    </properties>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>aliyun-java-sdk-core</artifactId>
+            <version>${aliyun-java-sdk-core.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>aliyun-java-sdk-dysmsapi</artifactId>
+            <version>${aliyun-java-sdk-dysmsapi.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>aliyun-java-sdk-green</artifactId>
+            <version>${aliyun-java-sdk-green.version}</version>
+        </dependency>
+    </dependencies>
 </project>
