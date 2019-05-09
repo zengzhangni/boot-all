@@ -11,6 +11,9 @@
 
     <modules>
         <module>boot-excel</module>
+        <module>boot-swagger</module>
+        <module>boot-common</module>
+        <module>boot-sms</module>
     </modules>
 
     <parent>

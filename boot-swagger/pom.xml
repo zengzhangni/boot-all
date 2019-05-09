@@ -4,30 +4,22 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>boot-excel</artifactId>
+    <artifactId>boot-swagger</artifactId>
     <packaging>pom</packaging>
+    <modules>
+        <module>swagger-a</module>
+        <module>swagger-grou</module>
+    </modules>
 
     <parent>
         <groupId>com-zzn-boot</groupId>
         <artifactId>boot-all</artifactId>
         <version>1.0.1</version>
     </parent>
-
-    <modules>
-        <module>excel-a</module>
-    </modules>
-
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
-
-        <!--excel-->
-        <excel-a.version>1.0.1</excel-a.version>
-        <!--poi-->
-        <poi.version>3.16</poi.version>
-        <poi-ooxml.version>3.14</poi-ooxml.version>
-        <jxl.version>2.6.10</jxl.version>
         <!--swagger2-->
         <swagger2.version>2.7.0</swagger2.version>
         <didispace.swagger.version>1.2.0.RELEASE</didispace.swagger.version>
@@ -35,26 +27,24 @@
         <commons-lang3.version>3.5</commons-lang3.version>
         <commons-long.version>2.6</commons-long.version>
         <lombok.version>1.16.18</lombok.version>
-
     </properties>
 
     <dependencies>
-        <!-- 引入poi，解析workbook视图 -->
+        <!--swagger2-->
         <dependency>
-            <groupId>org.apache.poi</groupId>
-            <artifactId>poi</artifactId>
-            <version>${poi.version}</version>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${swagger2.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.poi</groupId>
-            <artifactId>poi-ooxml</artifactId>
-            <version>${poi-ooxml.version}</version>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>${swagger2.version}</version>
         </dependency>
-        <!-- 处理excel和上面功能是一样的-->
         <dependency>
-            <groupId>net.sourceforge.jexcelapi</groupId>
-            <artifactId>jxl</artifactId>
-            <version>${jxl.version}</version>
+            <groupId>com.didispace</groupId>
+            <artifactId>spring-boot-starter-swagger</artifactId>
+            <version>${didispace.swagger.version}</version>
         </dependency>
         <dependency>
             <groupId>commons-lang</groupId>
@@ -72,21 +62,11 @@
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
         </dependency>
-        <!--swagger2-->
         <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-            <version>${swagger2.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger-ui</artifactId>
-            <version>${swagger2.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.didispace</groupId>
-            <artifactId>spring-boot-starter-swagger</artifactId>
-            <version>${didispace.swagger.version}</version>
+            <groupId>com-zzn-boot</groupId>
+            <artifactId>common-utils</artifactId>
+            <version>1.0.1</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 

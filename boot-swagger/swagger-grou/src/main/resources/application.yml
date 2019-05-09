@@ -1,0 +1,26 @@
+server:
+  port: 51001
+swagger:
+  docket:
+    用户中心:
+      title: 用户中心
+      version: 1.2.0
+      basePackage: org.zzn.springboot.controller
+      contact:
+        email: didi@potatomato.club
+        name: zhaiyongchao
+        url: http://spring4all.com/
+      description:
+      excludePath: /error/**
+      termsOfServiceUrl:
+    测试:
+      title: 测试
+      version: 1.2.0
+      basePackage: org.zzn.springboot.cs
+      contact:
+        email: didi@potatomato.club
+        name: zhaiyongchao
+        url: http://spring4all.com/
+      description:
+      excludePath: /error/**
+      termsOfServiceUrl:
