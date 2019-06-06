@@ -14,6 +14,7 @@
         <module>boot-swagger</module>
         <module>boot-common</module>
         <module>boot-sms</module>
+        <module>boot-generator</module>
     </modules>
 
     <parent>
