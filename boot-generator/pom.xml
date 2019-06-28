@@ -5,16 +5,19 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>boot-generator</artifactId>
     <packaging>pom</packaging>
-    <modules>
-        <module>mybatis</module>
-        <module>generator_1</module>
-    </modules>
 
     <parent>
         <artifactId>boot-all</artifactId>
         <groupId>com-zzn-boot</groupId>
         <version>1.0.1</version>
     </parent>
+
+    <modules>
+        <module>mybatis</module>
+        <module>generator_1</module>
+        <module>code-generator</module>
+    </modules>
+
 
 
 </project>

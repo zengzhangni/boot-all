@@ -158,6 +158,9 @@ public class RsaKeyHelper {
         return (new BASE64Decoder()).decodeBuffer(s);
     }
 
+    /**
+     * 公私钥生成
+     */
     public static void main(String[] args) throws NoSuchAlgorithmException {
         KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
         SecureRandom secureRandom = new SecureRandom("123".getBytes());
@@ -165,25 +168,12 @@ public class RsaKeyHelper {
         KeyPair keyPair = keyPairGenerator.genKeyPair();
         try {
             new RsaKeyHelper().getPrivateKey(toBytes(toHexString(keyPair.getPrivate().getEncoded())));
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
         System.out.println(toHexString(keyPair.getPrivate().getEncoded()).replaceAll("\r\n", ""));
         System.out.println(toHexString(keyPair.getPublic().getEncoded()).replaceAll("\r\n", ""));
-
-
-//    	try {
-//			new RsaKeyHelper().generateKey("D:\\pub.key", "D:\\\\pri.key", "1107");
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-
-
     }
 
 }

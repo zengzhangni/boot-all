@@ -65,28 +65,27 @@ public class OssClientUtil {
         ossClient.shutdown();
     }
 
-    public String uploadImg2Oss(MultipartFile file){
+    public String uploadImg2Oss(MultipartFile file) {
         //获得原始文件名
         String originalFilename = file.getOriginalFilename();
-        System.out.println("原始文件名是："+originalFilename);
+        System.out.println("原始文件名是：" + originalFilename);
         Random random = new Random();
 
         try {
-            if(file.getInputStream() instanceof FileInputStream){
+            if (file.getInputStream() instanceof FileInputStream) {
                 System.out.println("可以用强转FileInputStream");
 
-                FileInputStream is = (FileInputStream)file.getInputStream();
+                FileInputStream is = (FileInputStream) file.getInputStream();
                 FileType fileType = getType(is);
-                if(fileType == null){
+                if (fileType == null) {
                     return "暂不支持该类型";
                 }
-                System.out.println("文件类型是："+fileType);
+                System.out.println("文件类型是：" + fileType);
                 //生成新文件名，并拼接了 后缀
-                String name = random.nextInt(10000) + System.currentTimeMillis() +"."+fileType;
+                String name = random.nextInt(10000) + System.currentTimeMillis() + "." + fileType;
                 InputStream inputStream = file.getInputStream();
-                this.uploadFile2OSS(inputStream, name);
-                return name;
-            }else {
+                return this.uploadFile2OSS(inputStream, name);
+            } else {
                 return "图片上传失败";
             }
 
@@ -98,14 +97,11 @@ public class OssClientUtil {
     /**
      * 获得图片路径
      *
-     * @param fileUrl
      * @return
      */
-    public String getImgUrl(String fileUrl) {
-        System.out.println(fileUrl);
-        if (!StringUtils.isEmpty(fileUrl)) {
-            String[] split = fileUrl.split("/");
-            return this.getUrl(this.filedir + split[split.length - 1]);
+    public String getImgUrl(String key) {
+        if (!StringUtils.isEmpty(key)) {
+            return this.getUrl(key);
         }
         return null;
     }
@@ -118,7 +114,7 @@ public class OssClientUtil {
      * @return 出错返回"" ,唯一MD5数字签名
      */
     public String uploadFile2OSS(InputStream instream, String fileName) {
-        String ret = "";
+        String key = "";
         try {
             // 创建上传Object的Metadata
             ObjectMetadata objectMetadata = new ObjectMetadata();
@@ -128,8 +124,9 @@ public class OssClientUtil {
             objectMetadata.setContentType(getcontentType(fileName.substring(fileName.lastIndexOf("."))));
             objectMetadata.setContentDisposition("inline;filename=" + fileName);
             // 上传文件
-            PutObjectResult putResult = ossClient.putObject(bucketName, filedir + fileName, instream, objectMetadata);
-            ret = putResult.getETag();
+            key = filedir + fileName;
+            ossClient.putObject(bucketName, key, instream, objectMetadata);
+
         } catch (IOException e) {
             logger.error(e.getMessage(), e);
         } finally {
@@ -141,7 +138,7 @@ public class OssClientUtil {
                 e.printStackTrace();
             }
         }
-        return ret;
+        return key;
     }
 
     /**
@@ -211,7 +208,7 @@ public class OssClientUtil {
         // 生成URL
         URL url = ossClient.generatePresignedUrl(bucketName, key, expiration);
         if (url != null) {
-            return url.toString().replace(endpoint,network);
+            return url.toString().replace(endpoint, network);
         }
         return null;
     }
@@ -228,7 +225,7 @@ public class OssClientUtil {
      * @param src（原生byte）
      * @return 16进制字符串
      */
-    private static String bytesToHexString(byte[] src){
+    private static String bytesToHexString(byte[] src) {
 
         StringBuilder stringBuilder = new StringBuilder();
         if (src == null || src.length <= 0) {
@@ -255,11 +252,11 @@ public class OssClientUtil {
         byte[] b = new byte[28];
         is.read(b, 0, b.length);
         String fileHead = bytesToHexString(b).toUpperCase();
-        System.out.println("文件头："+fileHead);
+        System.out.println("文件头：" + fileHead);
         FileType[] fileTypes = FileType.values();
         for (FileType type : fileTypes) {
             if (fileHead.startsWith(type.getValue())) {
-                return  type;
+                return type;
             }
         }
 
