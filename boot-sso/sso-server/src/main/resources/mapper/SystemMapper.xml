@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zzn.usercenter.mapper.SystemMapper">
+    <resultMap id="BaseResultMap" type="com.zzn.usercenter.model.System">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="system_code" jdbcType="VARCHAR" property="systemCode"/>
+        <result column="system_name" jdbcType="VARCHAR" property="systemName"/>
+        <result column="system_domain" jdbcType="VARCHAR" property="systemDomain"/>
+        <result column="is_enabled" jdbcType="TINYINT" property="isEnabled"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="system_key" jdbcType="VARCHAR" property="systemKey"/>
+        <result column="index_url" jdbcType="VARCHAR" property="indexUrl"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id,
+        system_code,
+        system_name,
+        system_domain,
+        is_enabled,
+        create_time,
+        update_time,
+        system_key,
+        index_url
+    </sql>
+    <!-- 往表中插入一条数据 字段为空不插入 系统字段需要输入 -->
+    <insert id="insert" parameterType="com.zzn.usercenter.model.System">
+        insert into
+        t_system
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="systemCode != null">
+                system_code,
+            </if>
+            <if test="systemName != null">
+                system_name,
+            </if>
+            <if test="systemDomain != null">
+                system_domain,
+            </if>
+            <if test="isEnabled != null">
+                is_enabled,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="systemKey != null">
+                system_key,
+            </if>
+            <if test="indexUrl != null">
+                index_url,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="systemCode != null">
+                #{systemCode,jdbcType=VARCHAR},
+            </if>
+            <if test="systemName != null">
+                #{systemName,jdbcType=VARCHAR},
+            </if>
+            <if test="systemDomain != null">
+                #{systemDomain,jdbcType=VARCHAR},
+            </if>
+            <if test="isEnabled != null">
+                #{isEnabled,jdbcType=TINYINT},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="systemKey != null">
+                #{systemKey,jdbcType=VARCHAR},
+            </if>
+            <if test="indexUrl != null">
+                #{indexUrl,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <!-- 往表中批量插入数据 字段为空不插入 系统字段需要输入 -->
+    <insert id="insertBatch" parameterType="java.util.List">
+        insert into
+        t_system
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+
+            <if test="list.get(0).systemCode != null">
+                system_code,
+            </if>
+            <if test="list.get(0).systemName != null">
+                system_name,
+            </if>
+            <if test="list.get(0).systemDomain != null">
+                system_domain,
+            </if>
+            <if test="list.get(0).isEnabled != null">
+                is_enabled,
+            </if>
+            <if test="list.get(0).createTime != null">
+                create_time,
+            </if>
+            <if test="list.get(0).updateTime != null">
+                update_time,
+            </if>
+            <if test="list.get(0).systemKey != null">
+                system_key,
+            </if>
+            <if test="list.get(0).indexUrl != null">
+                index_url,
+            </if>
+        </trim>
+        <foreach collection="list" item="item" open="values (" close=")" separator=" ), ( ">
+            <trim suffixOverrides=",">
+
+                <if test="item.systemCode != null">
+                    #{item.systemCode,jdbcType=VARCHAR},
+                </if>
+                <if test="item.systemName != null">
+                    #{item.systemName,jdbcType=VARCHAR},
+                </if>
+                <if test="item.systemDomain != null">
+                    #{item.systemDomain,jdbcType=VARCHAR},
+                </if>
+                <if test="item.isEnabled != null">
+                    #{item.isEnabled,jdbcType=TINYINT},
+                </if>
+                <if test="item.createTime != null">
+                    #{item.createTime,jdbcType=TIMESTAMP},
+                </if>
+                <if test="item.updateTime != null">
+                    #{item.updateTime,jdbcType=TIMESTAMP},
+                </if>
+                <if test="systemKey != null">
+                    #{systemKey,jdbcType=VARCHAR},
+                </if>
+                <if test="indexUrl != null">
+                    #{indexUrl,jdbcType=VARCHAR},
+                </if>
+            </trim>
+        </foreach>
+    </insert>
+    <!-- 根据主键查询数据 所有数据 -->
+    <select id="selectById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        t_system
+        where
+        1 = 1
+        and id = #{id}
+    </select>
+    <select id="queryBySystemCode" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        t_system
+        where
+        system_code = #{systemCode}
+
+
+    </select>
+    <!-- 根据主键修改数据 字段为空不修改 所有数据 -->
+    <update id="updateById" parameterType="com.zzn.usercenter.model.System">
+        update
+        t_system
+        <set>
+            <if test="id != null">
+                id = #{id,jdbcType=INTEGER},
+            </if>
+            <if test="systemCode != null">
+                system_code = #{systemCode,jdbcType=VARCHAR},
+            </if>
+            <if test="systemName != null">
+                system_name = #{systemName,jdbcType=VARCHAR},
+            </if>
+            <if test="systemDomain != null">
+                system_domain = #{systemDomain,jdbcType=VARCHAR},
+            </if>
+            <if test="isEnabled != null">
+                is_enabled = #{isEnabled,jdbcType=TINYINT},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="systemKey != null">
+                system_key = #{systemKey,jdbcType=VARCHAR},
+            </if>
+            <if test="indexUrl != null">
+                index_url = #{indexUrl,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where
+        1 = 1
+        and id = #{id,jdbcType=INTEGER}
+    </update>
+    <!-- 根据主键删除数据 物理删除 -->
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        delete from
+            t_system
+        where
+            1 = 1
+        and id = #{id}
+    </delete>
+    <select id="getAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        t_system
+    </select>
+</mapper>

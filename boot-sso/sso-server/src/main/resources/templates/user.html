@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SSO用户</title>
+    <script src="/js/vue.min.js"></script>
+    <script src="/js/axios.min.js"></script>
+    <script src="/js/element-ui.js"></script>
+    <link rel="stylesheet" href="/css/element-ui.css">
+</head>
+<body>
+<div id="user">
+    <el-table :data="userListData"
+              highlight-current-row
+              border
+              max-height="650"
+    >
+        <el-table-column prop="userCode" label="用户code" align="center">
+        </el-table-column>
+        <el-table-column prop="loginName" label="用户账号" align="center">
+        </el-table-column>
+        <el-table-column prop="phone" label="手机号" align="center" show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column prop="systemSource" label="系统来源" align="center" show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column prop="createTime" label="注册时间" align="center">
+        </el-table-column>
+        <el-table-column align="center" label="操作">
+            <template slot-scope="scope">
+                <el-button type="text" size="small" @click="resetPassword(scope.row.loginName)">重置密码</el-button>
+                <el-button type="text" size="small" disabled>查看</el-button>
+            </template>
+        </el-table-column>
+    </el-table>
+    <div class="block" style="float: right;padding: 30px">
+        <el-pagination
+                @size-change="handleSizeChange"
+                @current-change="handleCurrentChange"
+                :page-sizes="[10, 20, 30, 40]"
+                :page-size="pageSize"
+                layout="total, sizes, prev, pager, next, jumper"
+                :total="total">
+        </el-pagination>
+    </div>
+
+    <el-dialog
+            title="重置密码"
+            :visible.sync="isResetPassword"
+            width="20%"
+    >
+        <span style="color: #ff100a;">确定将账号[{{loginName}}]的密码重置为123456?</span>
+        <span slot="footer" class="dialog-footer">
+    <el-button @click="isResetPassword = false">取 消</el-button>
+    <el-button type="primary" @click="confirmResetPassword">确 定</el-button>
+  </span>
+    </el-dialog>
+</div>
+</body>
+<script>
+    new Vue({
+        el: '#user',
+        data: {
+            userListData: [],
+            pageNo: 1,
+            pageSize: 10,
+            total: 0,
+            isResetPassword: false,
+            loginName: null
+        },
+        mounted() {
+            this.http(this.pageNo, this.pageSize);
+        },
+        methods: {
+            http(pageNo, pageSize) {
+                axios.get("/user/queryPage", {
+                    params: {
+                        pageNo: pageNo,
+                        pageSize: pageSize
+                    }
+                }).then(res => {
+                    const {list, total} = res.data.data;
+                    this.userListData = list;
+                    this.total = total;
+                });
+            },
+            //点击选中
+            tableRowClassName({row, rowIndex}) {
+                //把每一行的索引放进row
+                row.index = rowIndex;
+            },
+            //分页条
+            handleSizeChange(size) {
+                this.pageSize = size;
+                this.http(this.pageNo, size);
+            },
+            //页码改变
+            handleCurrentChange(currentPage) {
+                this.pageNo = currentPage;
+                this.http(currentPage, this.pageSize);
+            },
+            resetPassword(userCode) {
+                this.isResetPassword = true;
+                this.loginName = userCode;
+            },
+            confirmResetPassword() {
+                axios.get("/user/resetPassword", {
+                    params: {
+                        loginName: this.loginName,
+                    }
+                }).then(res => {
+                    const {code} = res.data;
+                    if (code === 200) {
+                        this.message("密码重置成功!", "success")
+                    } else {
+                        this.message("密码重置异常!", "error")
+                    }
+                    this.isResetPassword = false;
+                });
+            },
+            //信息提示
+            message(message, type) {
+                this.$message({
+                    message: message,
+                    center: true,
+                    duration: 2000,
+                    type: type
+                });
+            },
+
+        }
+    })
+</script>
+<style>
+    .el-header {
+        background-color: #B3C0D1;
+        color: #333;
+        line-height: 60px;
+    }
+
+    .el-table__body tr.current-row td {
+        background-color: #d8c485;
+    }
+
+    .el-table--enable-row-hover .el-table__body tr:hover td {
+        background-color: #d8c485;
+    }
+
+</style>
+</html>

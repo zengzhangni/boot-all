@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zzn.usercenter.mapper.UserCentreMapper">
+    <resultMap id="BaseResultMap" type="com.zzn.usercenter.model.UserCentre">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="user_code" jdbcType="VARCHAR" property="userCode"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="login_name" jdbcType="VARCHAR" property="loginName"/>
+        <result column="login_password" jdbcType="VARCHAR" property="loginPassword"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="gender" jdbcType="TINYINT" property="gender"/>
+        <result column="user_img_url" jdbcType="VARCHAR" property="userImgUrl"/>
+        <result column="system_source" jdbcType="VARCHAR" property="systemSource"/>
+        <result column="is_enabled" jdbcType="TINYINT" property="isEnabled"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id,
+        user_code,
+        user_name,
+        login_name,
+        login_password,
+        phone,
+        email,
+        gender,
+        user_img_url,
+        system_source,
+        is_enabled,
+        create_time,
+        update_time
+    </sql>
+    <!-- 往表中插入一条数据 字段为空不插入 系统字段需要输入 -->
+    <insert id="insert" parameterType="com.zzn.usercenter.model.UserCentre">
+        insert into
+        t_user_centre
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+
+            <if test="userCode != null">
+                user_code,
+            </if>
+            <if test="userName != null">
+                user_name,
+            </if>
+            <if test="loginName != null">
+                login_name,
+            </if>
+            <if test="loginPassword != null">
+                login_password,
+            </if>
+            <if test="phone != null">
+                phone,
+            </if>
+            <if test="email != null">
+                email,
+            </if>
+            <if test="gender != null">
+                gender,
+            </if>
+            <if test="userImgUrl != null">
+                user_img_url,
+            </if>
+            <if test="systemSource != null">
+                system_source,
+            </if>
+            <if test="isEnabled != null">
+                is_enabled,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+
+            <if test="userCode != null">
+                #{userCode,jdbcType=VARCHAR},
+            </if>
+            <if test="userName != null">
+                #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="loginName != null">
+                #{loginName,jdbcType=VARCHAR},
+            </if>
+            <if test="loginPassword != null">
+                #{loginPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="gender != null">
+                #{gender,jdbcType=TINYINT},
+            </if>
+            <if test="userImgUrl != null">
+                #{userImgUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="systemSource != null">
+                #{systemSource,jdbcType=VARCHAR},
+            </if>
+            <if test="isEnabled != null">
+                #{isEnabled,jdbcType=TINYINT},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <!-- 往表中批量插入数据 字段为空不插入 系统字段需要输入 -->
+    <insert id="insertBatch" parameterType="java.util.List">
+        insert into
+        t_user_centre
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="userCode != null">
+                user_code,
+            </if>
+            <if test="userName != null">
+                user_name,
+            </if>
+            <if test="loginName != null">
+                login_name,
+            </if>
+            <if test="loginPassword != null">
+                login_password,
+            </if>
+            <if test="phone != null">
+                phone,
+            </if>
+            <if test="gender != null">
+                gender,
+            </if>
+            <if test="userImgUrl != null">
+                user_img_url,
+            </if>
+            <if test="isEnabled != null">
+                is_enabled,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <foreach collection="list" item="item" open="values (" close=")" separator=" ), ( ">
+            <trim suffixOverrides=",">
+                <if test="item.id != null">
+                    #{item.id,jdbcType=INTEGER},
+                </if>
+                <if test="item.userCode != null">
+                    #{item.userCode,jdbcType=VARCHAR},
+                </if>
+                <if test="item.userName != null">
+                    #{item.userName,jdbcType=VARCHAR},
+                </if>
+                <if test="item.loginName != null">
+                    #{item.loginName,jdbcType=VARCHAR},
+                </if>
+                <if test="item.loginPassword != null">
+                    #{item.loginPassword,jdbcType=VARCHAR},
+                </if>
+                <if test="item.phone != null">
+                    #{item.phone,jdbcType=VARCHAR},
+                </if>
+                <if test="item.gender != null">
+                    #{item.gender,jdbcType=TINYINT},
+                </if>
+                <if test="item.userImgUrl != null">
+                    #{item.userImgUrl,jdbcType=VARCHAR},
+                </if>
+                <if test="item.isEnabled != null">
+                    #{item.isEnabled,jdbcType=TINYINT},
+                </if>
+                <if test="item.createTime != null">
+                    #{item.createTime,jdbcType=TIMESTAMP},
+                </if>
+                <if test="item.updateTime != null">
+                    #{item.updateTime,jdbcType=TIMESTAMP},
+                </if>
+            </trim>
+        </foreach>
+    </insert>
+    <!-- 根据主键查询数据 所有数据 -->
+    <select id="selectById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        t_user_centre
+        where
+        1 = 1
+        and id = #{id}
+    </select>
+
+    <!-- 根据主键修改数据 字段为空不修改 所有数据 -->
+    <update id="updateById" parameterType="com.zzn.usercenter.model.UserCentre">
+        update
+        t_user_centre
+        <set>
+            <if test="id != null">
+                id = #{id,jdbcType=INTEGER},
+            </if>
+            <if test="userCode != null">
+                user_code = #{userCode,jdbcType=VARCHAR},
+            </if>
+            <if test="userName != null">
+                user_name = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="loginName != null">
+                login_name = #{loginName,jdbcType=VARCHAR},
+            </if>
+            <if test="loginPassword != null">
+                login_password = #{loginPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                phone = #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                email = #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="gender != null">
+                gender = #{gender,jdbcType=TINYINT},
+            </if>
+            <if test="userImgUrl != null">
+                user_img_url = #{userImgUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="systemSource != null">
+                system_source = #{systemSource,jdbcType=VARCHAR},
+            </if>
+            <if test="isEnabled != null">
+                is_enabled = #{isEnabled,jdbcType=TINYINT},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where
+        1 = 1
+        and id = #{id,jdbcType=INTEGER}
+    </update>
+    <!-- 根据主键删除数据 物理删除 -->
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        delete from
+            t_user_centre
+        where
+            1 = 1
+        and id = #{id}
+    </delete>
+
+    <select id="findUserCentreByLoginName" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        t_user_centre
+        where
+        login_name = #{loginName,jdbcType=VARCHAR}
+    </select>
+    <select id="queryAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        t_user_centre
+    </select>
+    <update id="resetPassword">
+        update
+          t_user_centre
+        set
+          login_password = #{password}
+        where
+          login_name=#{loginName}
+
+    </update>
+    <update id="systemUserUpdate">
+        update
+        t_user_centre
+        <set>
+            <if test="newLoginName != null and newLoginName != ''">
+                login_name = #{newLoginName},
+            </if>
+            <if test="newPassword != null and newPassword != ''">
+                login_password = #{newPassword},
+            </if>
+            <if test="email != null ">
+                email = #{email},
+            </if>
+            <if test="phone != null ">
+                phone = #{phone}
+            </if>
+        </set>
+        where
+        login_name=#{loginName}
+    </update>
+
+</mapper>

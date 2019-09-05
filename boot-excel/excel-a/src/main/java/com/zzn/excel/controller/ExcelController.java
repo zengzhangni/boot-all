@@ -8,7 +8,10 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -81,4 +84,13 @@ public class ExcelController {
     }
 
 
+    @ApiOperation("文件上传")
+    @PostMapping("/sc")
+    public void sc(@RequestBody MultipartFile file) {
+        // 测试MultipartFile接口的各个方法
+        System.out.println("文件类型ContentType=" + file.getContentType());
+        System.out.println("文件组件名称Name=" + file.getName());
+        System.out.println("文件原名称OriginalFileName=" + file.getOriginalFilename());
+        System.out.println("文件大小Size=" + file.getSize() / 1024 + "KB");
+    }
 }

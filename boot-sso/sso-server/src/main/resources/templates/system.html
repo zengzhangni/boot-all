@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SSO系统</title>
+    <script src="/js/vue.min.js"></script>
+    <script src="/js/axios.min.js"></script>
+    <script src="/js/element-ui.js"></script>
+    <link rel="stylesheet" href="/css/element-ui.css">
+</head>
+<body>
+<div id="system">
+    <el-table :data="systemListData"
+              highlight-current-row
+              border
+              max-height="650"
+    >
+        <el-table-column prop="systemCode" label="系统编码" align="center" show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column prop="systemName" label="系统名称" align="center" show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column prop="systemDomain" label="系统域名" align="center" show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column prop="indexUrl" label="系统首页地址" align="center" show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column prop="createTime" label="创建时间" align="center">
+        </el-table-column>
+    </el-table>
+    <div class="block" style="float: right;padding: 30px">
+        <el-pagination
+                @size-change="handleSizeChange"
+                @current-change="handleCurrentChange"
+                :page-sizes="[10, 20, 30, 40]"
+                :page-size="pageSize"
+                layout="total, sizes, prev, pager, next, jumper"
+                :total="total">
+        </el-pagination>
+    </div>
+</div>
+</body>
+<script>
+    new Vue({
+        el: '#system',
+        data: {
+            systemListData: [],
+            pageNo: 1,
+            pageSize: 10,
+            total: 0
+        },
+        mounted() {
+            this.http(this.pageNo, this.pageSize);
+        },
+        methods: {
+            http(pageNo, pageSize) {
+                axios.get("/system/queryPage", {
+                    params: {
+                        pageNo: pageNo,
+                        pageSize: pageSize
+                    }
+                }).then(res => {
+                    const {list, total} = res.data.data;
+                    this.systemListData = list;
+                    this.total = total;
+                });
+            },
+            //点击选中
+            tableRowClassName({row, rowIndex}) {
+                //把每一行的索引放进row
+                row.index = rowIndex;
+            },
+            //分页条
+            handleSizeChange(size) {
+                this.pageSize = size;
+                this.http(this.pageNo, size);
+            },
+            //页码改变
+            handleCurrentChange(currentPage) {
+                this.pageNo = currentPage;
+                this.http(currentPage, this.pageSize);
+            }
+        }
+    })
+</script>
+<style>
+    .el-table__body tr.current-row td {
+        background-color: #d8c485;
+    }
+
+    .el-table--enable-row-hover .el-table__body tr:hover td {
+        background-color: #d8c485;
+    }
+
+</style>
+</html>
