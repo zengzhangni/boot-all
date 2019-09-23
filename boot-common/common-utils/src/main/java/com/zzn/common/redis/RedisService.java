@@ -19,111 +19,102 @@ public class RedisService  {
     private RedisTemplate redisTemplate;
     @Resource
     private StringRedisTemplate stringRedisTemplate;
-    /**
-     * 写入缓存
-     * @param key
-     * @param value
-     * @return
-     */
-    public boolean set(final String key, Object value) {
-        boolean result = false;
-        try {
-            ValueOperations<String, Object> operations = redisTemplate.opsForValue();
-            operations.set(key, value);
-            result = true;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
+
+
+    //----------------------------字符串-------------------------------------------
 
     /**
      * 写入字符串缓存
+     *
      * @param key
      * @param value
-     * @return
      */
-    public boolean setStr(final String key, String value, Long expireTime) {
-        boolean result = false;
-        try {
-            ValueOperations<String, String> operations = stringRedisTemplate.opsForValue();
-            operations.set(key, value);
-            stringRedisTemplate.expire(key, expireTime, TimeUnit.SECONDS);
-            result = true;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
-    /**
-     * 写入字符串缓存-不设置过期时间
-     * @param key
-     * @param value
-     * @return
-     */
-    public boolean setStr(final String key, String value) {
-        boolean result = false;
-        try {
-            ValueOperations<String, String> operations = stringRedisTemplate.opsForValue();
-            operations.set(key, value);
-            result = true;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return result;
+    public void setStr(final String key, String value) {
+        ValueOperations<String, String> operations = stringRedisTemplate.opsForValue();
+        operations.set(key, value);
     }
 
+    /**
+     * 写入字符串缓存 设置过期时间
+     *
+     * @param key
+     * @param value
+     */
+    public void setStr(final String key, String value, Long expireTime) {
+        ValueOperations<String, String> operations = stringRedisTemplate.opsForValue();
+        operations.set(key, value);
+        if (expireTime != null) {
+            stringRedisTemplate.expire(key, expireTime, TimeUnit.SECONDS);
+        }
+    }
+
+    /**
+     * 获取字符串
+     *
+     * @param key
+     * @return
+     */
+    public String getStr(final String key) {
+        ValueOperations<String, String> operations = stringRedisTemplate.opsForValue();
+        return operations.get(key);
+    }
+
+    /**
+     * 判断字符串缓存中是否有对应的value
+     *
+     * @param key
+     * @return
+     */
+    public boolean existsStr(final String key) {
+        return stringRedisTemplate.hasKey(key);
+    }
+
+    /**
+     * 删除字符串缓存
+     *
+     * @param key
+     */
+    public void removeStr(final String key) {
+        if (existsStr(key)) {
+            stringRedisTemplate.delete(key);
+        }
+    }
+
+
+    //----------------------------对象-------------------------------------------
+
+
+    /**
+     * 写入缓存
+     *
+     * @param key
+     * @param value
+     * @return
+     */
+    public void set(final String key, Object value) {
+        ValueOperations<String, Object> operations = redisTemplate.opsForValue();
+        operations.set(key, value);
+    }
 
 
     /**
      * 写入缓存设置时效时间
+     *
      * @param key
      * @param value
      * @return
      */
-    public boolean set(final String key, Object value, Long expireTime) {
-        boolean result = false;
-        try {
-            ValueOperations<String, Object> operations = redisTemplate.opsForValue();
-            operations.set(key, value);
+    public void set(final String key, Object value, Long expireTime) {
+        ValueOperations<String, Object> operations = redisTemplate.opsForValue();
+        operations.set(key, value);
+        if (expireTime != null) {
             redisTemplate.expire(key, expireTime, TimeUnit.SECONDS);
-            result = true;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
-    /**
-     * 批量删除对应的value
-     * @param keys
-     */
-    public void remove(final String... keys) {
-        for (String key : keys) {
-            remove(key);
         }
     }
 
     /**
-     * 批量删除key
-     * @param pattern
-     */
-    public void removePattern(final String pattern) {
-        Set<Serializable> keys = redisTemplate.keys(pattern);
-        if (keys.size() > 0) {
-            redisTemplate.delete(keys);
-        }
-    }
-    /**
-     * 删除对应的value
-     * @param key
-     */
-    public void remove(final String key) {
-        if (exists(key)) {
-            redisTemplate.delete(key);
-        }
-    }
-    /**
      * 判断缓存中是否有对应的value
+     *
      * @param key
      * @return
      */
@@ -132,146 +123,254 @@ public class RedisService  {
     }
 
     /**
-     * 判断缓存中是否有对应的value
+     * 删除对应的value
+     *
      * @param key
-     * @return
      */
-    public boolean existsStr(final String key) {
-        return stringRedisTemplate.hasKey(key);
+    public void remove(final String key) {
+        if (exists(key)) {
+            redisTemplate.delete(key);
+        }
     }
+
+
     /**
      * 读取缓存对象
+     *
      * @param key
      * @return
      */
     public Object get(final String key) {
-        Object result = null;
-        ValueOperations<Serializable, Object> operations = redisTemplate.opsForValue();
-        result = operations.get(key);
-        return result;
+        ValueOperations<String, Object> operations = redisTemplate.opsForValue();
+        return operations.get(key);
     }
 
 
-    /**
-     * 获取字符串
-     * @param key
-     * @return
-     */
-    public String getStr(final String key) {
-        String result = null;
-        ValueOperations<String, String> operations = stringRedisTemplate.opsForValue();
-        result = operations.get(key);
-        return result;
-    }
+    //----------------------------哈希-------------------------------------------
+
     /**
      * 哈希 添加
+     *
      * @param key
      * @param hashKey
      * @param value
      */
-    public void hmSet(String key, Object hashKey, Object value){
+    public void hashSet(String key, Object hashKey, Object value) {
         HashOperations<String, Object, Object> hash = redisTemplate.opsForHash();
-        hash.put(key,hashKey,value);
+        hash.put(key, hashKey, value);
     }
 
     /**
      * 哈希获取数据
+     *
      * @param key
      * @param hashKey
      * @return
      */
-    public Object hmGet(String key, Object hashKey){
+    public Object hashGet(String key, Object hashKey) {
         HashOperations<String, Object, Object> hash = redisTemplate.opsForHash();
-        return hash.get(key,hashKey);
+        return hash.get(key, hashKey);
+    }
+
+    /**
+     * 哈希判断是否存在key
+     *
+     * @param key
+     * @param hashKey
+     * @return
+     */
+    public Boolean existsHash(String key, Object hashKey) {
+        HashOperations<String, Object, Object> hash = redisTemplate.opsForHash();
+        return hash.hasKey(key, hashKey);
     }
 
     /**
      * hash删除
+     *
      * @param key
      * @param hashKey
      */
-    public void hashDelete(String key,Object hashKey){
-        redisTemplate.opsForHash().delete(key,hashKey);
+    public void hashDelete(String key, Object hashKey) {
+        redisTemplate.opsForHash().delete(key, hashKey);
     }
+
+    //----------------------------列表-------------------------------------------
 
     /**
      * 列表添加
+     *
      * @param k
      * @param v
      */
-    public void lPush(String k,Object v){
+    public void listSet(String k, Object v) {
         ListOperations<String, Object> list = redisTemplate.opsForList();
-        list.rightPush(k,v);
+        list.rightPush(k, v);
+    }
+
+    /**
+     * 批量添加
+     *
+     * @param k
+     * @param v
+     */
+    public void listSetAll(String k, Object... v) {
+        ListOperations<String, Object> list = redisTemplate.opsForList();
+        list.rightPushAll(k, v);
+    }
+
+    /**
+     * 列表判断
+     *
+     * @param k
+     * @param v
+     */
+    public Boolean existsListByV(String k, Object v) {
+        ListOperations<String, Object> list = redisTemplate.opsForList();
+        List<Object> range = list.range(k, 0, -1);
+        return range.contains(v);
+    }
+
+    public Boolean existsList(String k, long s, long e) {
+        ListOperations<String, Object> list = redisTemplate.opsForList();
+        return list.size(k) > 0;
+    }
+
+    public Boolean existsListByIndex(String k, long index) {
+        ListOperations<String, Object> list = redisTemplate.opsForList();
+        return list.index(k, index) != null;
     }
 
 
     /**
      * 列表获取
+     *
      * @param k
-     * @param l
-     * @param l1
+     * @param start 开始的下标
+     * @param end
      * @return
      */
-    public List<Object> lRange(String k, long l, long l1){
+    public List<Object> listGetValue(String k, long start, long end) {
         ListOperations<String, Object> list = redisTemplate.opsForList();
-        return list.range(k,l,l1);
+        return list.range(k, start, end);
     }
 
     /**
+     * 列表获取
+     *
+     * @param k
+     * @param index 下标
+     * @return
+     */
+    public Object listGetValue(String k, long index) {
+        ListOperations<String, Object> list = redisTemplate.opsForList();
+        return list.index(k, index);
+    }
+
+    /**
+     * 列表删除
+     * <p>
+     * K key：集合key
+     * long count：数量
+     * Object value：key对应的值
+     *
+     * @return
+     */
+    public Long removeList(String k, long count, Object value) {
+        ListOperations<String, Object> list = redisTemplate.opsForList();
+        return list.remove(k, count, value);
+
+    }
+
+    //----------------------------集合-------------------------------------------
+
+    /**
      * 集合添加
+     *
      * @param key
      * @param value
      */
-    public void add(String key,Object value){
+    public void setAdd(String key, Object value) {
         SetOperations<String, Object> set = redisTemplate.opsForSet();
-        set.add(key,value);
+        set.add(key, value);
+    }
+    public void setAddAll(String key, Object... value) {
+        SetOperations<String, Object> set = redisTemplate.opsForSet();
+        set.add(key, value);
     }
 
     /**
      * 集合获取
+     *
      * @param key
      * @return
      */
-    public Set<Object> setMembers(String key){
+    public Set<Object> setGetValue(String key) {
         SetOperations<String, Object> set = redisTemplate.opsForSet();
         return set.members(key);
     }
 
     /**
+     * 集合判断
+     *
+     * @param key
+     * @return
+     */
+    public Boolean existsSet(String key, Object o) {
+        SetOperations<String, Object> set = redisTemplate.opsForSet();
+        return set.isMember(key, o);
+    }
+
+    /**
+     * 集合删除
+     *
+     * @param key
+     * @return
+     */
+    public Long removeSet(String key, Object o) {
+        SetOperations<String, Object> set = redisTemplate.opsForSet();
+        return set.remove(key, o);
+    }
+
+    //----------------------------有序集合(zset)-------------------------------------------
+
+    /**
      * 有序集合添加
+     *
      * @param key
      * @param value
-     * @param scoure
+     * @param score
      */
-    public void zAdd(String key,Object value,double scoure){
+    public void zSetAdd(String key, Object value, double score) {
         ZSetOperations<String, Object> zset = redisTemplate.opsForZSet();
-        zset.add(key,value,scoure);
+        zset.add(key, value, score);
     }
 
     /**
      * 有序集合获取
+     *
      * @param key
-     * @param scoure
-     * @param scoure1
+     * @param min 0(队头)
+     * @param max -1(队尾)
      * @return
      */
-    public Set<Object> rangeByScore(String key,double scoure,double scoure1){
+    public Set<Object> zSetGetValue(String key, double min, double max) {
         ZSetOperations<String, Object> zset = redisTemplate.opsForZSet();
-        return zset.rangeByScore(key, scoure, scoure1);
+        return zset.rangeByScore(key, min, max);
     }
 
-    /**
-     * 短信缓存
-     * @author
-     * @date
-     * @param key
-     * @param value
-     * @param time
-     */
-    public  void setForPhone(String key,String value,int time){
-        stringRedisTemplate.opsForValue().set(key,new Gson().toJson(value));
-        if(time > 0){
-            stringRedisTemplate.expire(key, time, TimeUnit.SECONDS);
-        }
+    public Set<Object> zSetGetValueByIndex(String key, long start, long end) {
+        ZSetOperations<String, Object> zset = redisTemplate.opsForZSet();
+        return zset.range(key, start, end);
+    }
+
+    public Boolean existsZSet(String key, String zSetKey) {
+        ZSetOperations<String, Object> zset = redisTemplate.opsForZSet();
+        Long rank = zset.rank(key, zSetKey);
+        return rank != null;
+    }
+
+    public Boolean existsZSet(String key) {
+        ZSetOperations<String, Object> zset = redisTemplate.opsForZSet();
+        return zset.size(key) > 0;
     }
 }

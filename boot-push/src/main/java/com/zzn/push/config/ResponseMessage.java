@@ -2,7 +2,6 @@ package com.zzn.push.config;
 
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.hnf.common.utils.constant.ResponseContants;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -20,10 +19,10 @@ import java.io.Serializable;
 public class ResponseMessage<T> implements Serializable {
 
     @ApiModelProperty(value = "状态码,200表示成功 其他表示失败", example = "200")
-    public int code = ResponseContants.SUCCESS;
+    public int code = 200;
 
     @ApiModelProperty(value = "错误信息", example = "操作成功")
-    public String message = ResponseContants.SUCCESS_MSG;
+    public String message = "SUCCESS";
 
     @ApiModelProperty(value = "数据", example = "")
     public T data;
