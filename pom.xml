@@ -17,6 +17,7 @@
         <module>boot-generator</module>
         <module>boot-sso</module>
         <module>boot-push</module>
+        <module>boot-pay</module>
     </modules>
 
     <parent>

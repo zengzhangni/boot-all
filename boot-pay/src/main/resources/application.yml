@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: mupp-paycenter-service
+server:
+  port: 20263
