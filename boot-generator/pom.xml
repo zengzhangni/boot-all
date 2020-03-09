@@ -16,6 +16,8 @@
         <module>mybatis</module>
         <module>generator_1</module>
         <module>code-generator</module>
+        <module>generator_mp</module>
+        <module>generator_2</module>
     </modules>
 
 
