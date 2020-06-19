@@ -4,6 +4,7 @@ package $!{packageName}.$!{entityPackageName};
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
+import com.meiyuan.catering.core.entity.IdEntity;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -13,7 +14,7 @@ import java.util.Date;
  */
 @Data
 @TableName("$!{tablePrefix}$domain")
-public interface $!{domainName} implements Serializable{
+public class  $!{domainName}Entity extends IdEntity{
 
     #foreach($element in $list)
 /**

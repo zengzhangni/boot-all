@@ -2,7 +2,6 @@
 package $!{packageName}.service.impl;
 
 
-import $!{packageName}.$!{entityPackageName}.User;
 import $!{packageName}.mapper.UserMapper;
 import $!{packageName}.service.UserService;
 

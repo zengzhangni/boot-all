@@ -49,7 +49,7 @@ public class Template {
         for (Table table : tables) {
             es.submit(() -> {
                 try {
-                    cj(table.getSubJavaName(1), table.getCols());
+                    cj(table.getJavaName(), table.getCols());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -66,7 +66,7 @@ public class Template {
         map.put("ServiceImpl.java", "service/impl/" + domainName + "ServiceImpl.java");
         map.put("Controller.java", "controller/" + domainName + "Controller.java");
         map.put("Mapper.xml", "xml/" + domainName + "Mapper.xml");
-        map.put("Model.java", "model/" + domainName + ".java");
+        map.put("Model.java", "entity/" + domainName + "Entity.java");
 
         for (String templateFile : map.keySet()) {
             String targetFile = map.get(templateFile).toString();

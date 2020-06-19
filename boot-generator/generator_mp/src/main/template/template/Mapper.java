@@ -1,7 +1,6 @@
 #set ($domain = $!domainName.substring(0,1).toLowerCase()+$!domainName.substring(1))
 package $!{packageName}.mapper;
 
-import $!{packageName}.$!{entityPackageName}.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 /**
  * @author $!{author}
