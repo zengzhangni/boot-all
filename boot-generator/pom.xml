@@ -18,6 +18,7 @@
         <module>code-generator</module>
         <module>generator_mp</module>
         <module>generator_2</module>
+        <module>mybatis-plus-generator-ui</module>
     </modules>
 
 
