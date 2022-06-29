@@ -25,7 +25,7 @@
         <!--excel-->
         <excel-a.version>1.0.1</excel-a.version>
         <!--poi-->
-        <poi.version>3.16</poi.version>
+        <poi.version>4.1.1</poi.version>
         <poi-ooxml.version>3.14</poi-ooxml.version>
         <jxl.version>2.6.10</jxl.version>
         <!--swagger2-->
